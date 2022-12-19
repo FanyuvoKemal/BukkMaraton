@@ -124,5 +124,42 @@ public class Main {
             System.out.printf("A rövidtávú verseny felnőtt férfi kategóriájának győztese: %s, %02d:%02d:%02d idővel.%n%n",
                     winnerName, winnerTime / 3600, (winnerTime % 3600) / 60, winnerTime % 60);
         }
+
+        System.out.println("8. feladat:");
+        int m10fCount = 0;
+        int m1fCount = 0;
+        int f10fCount = 0;
+        int f1fCount = 0;
+
+        try {
+            Scanner scanner = new Scanner(new File("bukkm2019.txt"));
+            scanner.nextLine();
+            while(scanner.hasNextLine()){
+                String line = scanner.nextLine();
+                if (line.contains(";")){
+                    String[] parts = line.split(";");
+                    if (parts[1].endsWith("f") && parts[0].startsWith("R") && !parts[4].equals("")){
+                        if (parts[1].startsWith("m10")){
+                            m10fCount++;
+                        }
+                        else if (parts[1].startsWith("m1")){
+                            m1fCount++;
+                        }
+                        else if (parts[1].startsWith("f10")){
+                            f10fCount++;
+                        }
+                        else if (parts[1].startsWith("f1")){
+                            f1fCount++;
+                        }
+                    }
+                }
+            }
+        }
+        catch (FileNotFoundException e){
+            System.out.println("A bukkm2019.txt fájl nem található!");
+        }
+
+        System.out.printf("Férfi versenyzők célba érkezési statisztikája a rövidtávú versenyen:%nM10F: %d fő%nM1F: %d fő%nF10F: %d fő%nF1F: %d fő",
+                m10fCount, m1fCount, f10fCount, f1fCount);
     }
 }
