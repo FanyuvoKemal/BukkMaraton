@@ -86,5 +86,43 @@ public class Main {
             System.out.println("Nem volt ilyen versenyző.");
         }
         System.out.println();
+
+
+        System.out.println("7. feladat:");
+        String winnerName = "";
+        String winnerClub = "";
+        int winnerTime = 0;
+
+        try {
+            Scanner scanner = new Scanner(new File("bukkm2019.txt"));
+            scanner.nextLine();
+            while(scanner.hasNextLine()){
+                String line = scanner.nextLine();
+                if (line.contains(";")){
+                    String[] parts = line.split(";");
+                    if (parts[1].equals("ff") && parts[0].startsWith("R") && !parts[4].equals("")){
+                        String[] timeParts = parts[4].split(":");
+                        int time = Integer.parseInt(timeParts[0]) * 3600 + Integer.parseInt(timeParts[1]) * 60 + Integer.parseInt(timeParts[2]);
+                        if (time > winnerTime){
+                            winnerTime = time;
+                            winnerName = parts[2];
+                            winnerClub = parts[3];
+                        }
+                    }
+                }
+            }
+        }
+        catch (FileNotFoundException e){
+            System.out.println("A bukkm2019.txt fájl nem található!");
+        }
+
+        if (!winnerClub.equals("")){
+            System.out.printf("A rövidtávú verseny felnőtt férfi kategóriájának győztese: %s (%s), %02d:%02d:%02d idővel.%n%n",
+                    winnerName, winnerClub, winnerTime / 3600, (winnerTime % 3600) / 60, winnerTime % 60);
+        }
+        else {
+            System.out.printf("A rövidtávú verseny felnőtt férfi kategóriájának győztese: %s, %02d:%02d:%02d idővel.%n%n",
+                    winnerName, winnerTime / 3600, (winnerTime % 3600) / 60, winnerTime % 60);
+        }
     }
 }
